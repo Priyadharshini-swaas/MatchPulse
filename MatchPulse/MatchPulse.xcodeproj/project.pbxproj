@@ -144,7 +144,7 @@
 				181CC1032F97414000814405 /* Sources */,
 				181CC1042F97414000814405 /* Frameworks */,
 				181CC1052F97414000814405 /* Resources */,
-				18D18EDC2FD0361200CD2BE7 /* ShellScript */,
+				18D18EDC2FD0361200CD2BE7 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -286,7 +286,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		18D18EDC2FD0361200CD2BE7 /* ShellScript */ = {
+		18D18EDC2FD0361200CD2BE7 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -300,6 +300,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleService-Info.plist",
 				"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}",
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
