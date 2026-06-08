@@ -1,20 +1,57 @@
-lane :firebase do
-  # Build the app (no signing needed for Firebase)
-  xcodebuild(
-    scheme: "MatchPulse",
-    project: "MatchPulse.xcodeproj",
-    destination: "generic/platform=iOS Simulator",
-    build_settings: {
-      "CODE_SIGNING_ALLOWED" => "NO",
-      "CODE_SIGN_IDENTITY" => "",
-      "CODE_SIGNING_REQUIRED" => "NO"
-    }
-  )
+default_platform(:ios)
 
-  firebase_app_distribution(
-    app: "1:981198068719:ios:e418854ab4273d90fbf41a",  # your Firebase App ID
-    testers: "priyaparthiban702@gmail.com",
-    release_notes: "Build from CI - #{ENV['GITHUB_SHA']}",
-    service_credentials_json_data: ENV["FIREBASE_SERVICE_ACCOUNT_JSON"]
-  )
+platform :ios do
+
+  lane :test do
+    run_tests(
+      scheme: "MatchPulse",
+      devices: ["iPhone 16"],
+      clean: true
+    )
+  end
+
+  lane :build_only do
+    xcodebuild(
+      scheme: "MatchPulse",
+      project: "MatchPulse.xcodeproj",
+      destination: "generic/platform=iOS Simulator",
+      build_settings: {
+        "CODE_SIGNING_ALLOWED" => "NO",
+        "CODE_SIGN_IDENTITY" => "",
+        "CODE_SIGNING_REQUIRED" => "NO"
+      }
+    )
+  end
+
+  lane :firebase do
+    xcodebuild(
+      scheme: "MatchPulse",
+      project: "MatchPulse.xcodeproj",
+      destination: "generic/platform=iOS Simulator",
+      build_settings: {
+        "CODE_SIGNING_ALLOWED" => "NO",
+        "CODE_SIGN_IDENTITY" => "",
+        "CODE_SIGNING_REQUIRED" => "NO"
+      }
+    )
+    firebase_app_distribution(
+      app: "1:123456789:ios:abcdef123456",
+      testers: "tester1@email.com",
+      release_notes: "Build from CI - #{ENV['GITHUB_SHA']}",
+      service_credentials_json_data: ENV["FIREBASE_SERVICE_ACCOUNT_JSON"]
+    )
+  end
+
+  lane :beta do
+    api_key = app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY_CONTENT"]
+    )
+    match(type: "appstore", api_key: api_key)
+    increment_build_number
+    build_app(scheme: "MatchPulse", export_method: "app-store")
+    upload_to_testflight(api_key: api_key, skip_waiting_for_build_processing: true)
+  end
+
 end
