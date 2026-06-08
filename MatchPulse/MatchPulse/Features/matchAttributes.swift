@@ -18,7 +18,7 @@ struct MatchAttributes: ActivityAttributes {
     }
     
     let homeTeam: String
-    let awayTeam: String
+    let awayTeam: String 
 }
 
 class LiveActivityManager {
