@@ -15,7 +15,7 @@ class ContentAPI {
     // MARK: - async/await
     func fetchContent() async throws -> [ContentItem] {
 
-        let urlString = "\(AppStrings.baseURL)/content"
+        let urlString = "\(AppStrings.baseURL)/content "
 
         guard let url = URL(string: urlString) else {
             throw URLError(.badURL)
