@@ -1,16 +1,5 @@
-default_platform(:ios)
-
-platform :ios do
-
-  lane :test do
-    run_tests(
-      scheme: "MatchPulse",
-      devices: ["iPhone 16"],
-      clean: true
-    )
-  end
-
-  lane :build_only do
+lane :firebase do
+  # Build the app (no signing needed for Firebase)
   xcodebuild(
     scheme: "MatchPulse",
     project: "MatchPulse.xcodeproj",
@@ -21,6 +10,11 @@ platform :ios do
       "CODE_SIGNING_REQUIRED" => "NO"
     }
   )
-end
 
+  firebase_app_distribution(
+    app: "1:981198068719:ios:e418854ab4273d90fbf41a",  # your Firebase App ID
+    testers: "priyaparthiban702@gmail.com",
+    release_notes: "Build from CI - #{ENV['GITHUB_SHA']}",
+    service_credentials_json_data: ENV["FIREBASE_SERVICE_ACCOUNT_JSON"]
+  )
 end
