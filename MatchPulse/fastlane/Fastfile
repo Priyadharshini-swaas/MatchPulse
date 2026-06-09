@@ -16,24 +16,17 @@ platform :ios do
   end
 
   lane :firebase do
-    api_key = app_store_connect_api_key(
-      key_id: ENV["ASC_KEY_ID"],
-      issuer_id: ENV["ASC_ISSUER_ID"],
-      key_content: ENV["ASC_KEY_CONTENT"]
-    )
-    match(
-      type: "adhoc",
-      git_url: ENV["MATCH_GIT_URL"],
-      api_key: api_key,
-      readonly: true
-    )
+    setup_ci
+
     build_app(
       scheme: "MatchPulse",
       project: "MatchPulse.xcodeproj",
       export_method: "ad-hoc",
       output_directory: "./build",
-      output_name: "MatchPulse.ipa"
+      output_name: "MatchPulse.ipa",
+      xcargs: "CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=#{ENV['APPLE_TEAM_ID']}"
     )
+
     firebase_app_distribution(
       app: "1:981198068719:ios:e418854ab4273d90fbf41a",
       testers: "priyaparthiban702@gmail.com",
