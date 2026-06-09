@@ -3,8 +3,6 @@ name: iOS CI/CD PoC
 on:
   push:
     branches: [main, develop]
-  pull_request:
-    branches: [main]
 
 jobs:
   build-and-test:
@@ -29,11 +27,5 @@ jobs:
       - name: Distribute to Firebase
         if: github.ref == 'refs/heads/main'
         env:
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
-          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
-          ASC_KEY_CONTENT: ${{ secrets.ASC_KEY_CONTENT }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
         run: bundle exec fastlane firebase
