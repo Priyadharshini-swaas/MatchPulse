@@ -22,9 +22,10 @@ platform :ios do
       scheme: "MatchPulse",
       project: "MatchPulse.xcodeproj",
       export_method: "ad-hoc",
+      configuration: "Debug",
       output_directory: "./build",
       output_name: "MatchPulse.ipa",
-      xcargs: "CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=#{ENV['APPLE_TEAM_ID']}"
+      xcargs: "CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=#{ENV['APPLE_TEAM_ID']} DEBUG_INFORMATION_FORMAT=dwarf"
     )
 
     firebase_app_distribution(
