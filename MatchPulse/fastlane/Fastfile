@@ -18,6 +18,19 @@ platform :ios do
 
   # ── Lane 2: Build + Distribute to Firebase ──────────────
   lane :firebase do
+    create_keychain(
+      name: "ci_keychain",
+      password: "ci_password",
+      default_keychain: true,
+      unlock: true,
+      timeout: 3600
+    )
+
+    update_code_signing_settings(
+      use_automatic_signing: true,
+      path: "MatchPulse.xcodeproj"
+    )
+
     build_app(
       scheme: "MatchPulse",
       project: "MatchPulse.xcodeproj",
@@ -26,7 +39,8 @@ platform :ios do
       output_name: "MatchPulse.ipa",
       export_options: {
         compileBitcode: false,
-        signingStyle: "automatic"
+        signingStyle: "automatic",
+        teamID: ENV["APPLE_TEAM_ID"]
       }
     )
 
