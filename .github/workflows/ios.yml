@@ -3,6 +3,8 @@ name: iOS CI/CD PoC
 on:
   push:
     branches: [main, develop]
+  pull_request:
+    branches: [main]
 
 jobs:
   build-and-test:
@@ -28,4 +30,5 @@ jobs:
         if: github.ref == 'refs/heads/main'
         env:
           FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: bundle exec fastlane firebase
